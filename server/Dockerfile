@@ -11,6 +11,8 @@ ADD src /app/src
 
 ARG SERVER_URI
 
+RUN echo "HELLO"
+
 # replace server address:port
 RUN sed -i "s,http://localhost:5001,$SERVER_URI,g" src/buildEnv.js
 
