@@ -11,8 +11,7 @@ ADD db /app/db
 ADD models /app/models
 ADD routes /app/routes
 
-RUN pwd && echo $ATLAS_URI \
-    yarn install --production
+RUN yarn install --production
 
 EXPOSE 5001
 
