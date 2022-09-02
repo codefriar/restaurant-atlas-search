@@ -1,29 +1,18 @@
-FROM node:16-alpine AS build
+FROM node:16-alpine
 
 WORKDIR /app
 
-COPY package.json .
-COPY yarn.lock .
-RUN pwd && yarn install --production
+COPY package.json ./
+COPY server.js ./
+COPY yarn.lock ./
 
-ADD public /app/public
-ADD src /app/src
+ADD controllers /app/controllers
+ADD db /app/db
+ADD models /app/models
+ADD routes /app/routes
 
-ARG SERVER_URI
+RUN yarn install --production
 
-RUN echo "HELLO"
+EXPOSE 5001
 
-# replace server address:port
-RUN sed -i "s,http://localhost:5001,$SERVER_URI,g" src/buildEnv.js
-
-RUN yarn build
-
-FROM nginx:1.21-alpine as runtime
-
-COPY --from=build /app/build /usr/share/nginx/html
-
-COPY nginx.conf /etc/nginx/conf.d/default.conf
-
-EXPOSE 80
-
-CMD ["nginx", "-g", "daemon off;"]
+CMD node server.js
