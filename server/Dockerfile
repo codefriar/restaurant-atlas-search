@@ -11,8 +11,6 @@ ADD db /app/db
 ADD models /app/models
 ADD routes /app/routes
 
-ARG ATLAS_URI
-
 RUN pwd && echo $ATLAS_URI \
     yarn install --production
 
